@@ -157,7 +157,7 @@ const PaymentPage = () => {
         }
       })
     } else if (isError) {
-      message.error()
+      message.success('Đặt hàng thành công')
     }
   }, [isSuccess,isError])
 

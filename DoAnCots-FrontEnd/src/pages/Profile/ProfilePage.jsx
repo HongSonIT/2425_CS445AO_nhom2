@@ -75,9 +75,15 @@ const ProfilePage = () => {
     }
 
     const handleUpdate = () => {
-        mutation.mutate({ id: user?.id, email, name, phone, address, avatar, access_token: user?.access_token })
-
+        const emailReg = /^[a-zA-Z]+@gmail\.com$/
+        const checkEmail = emailReg.test(email)
+        if(!checkEmail){
+            message.error("Cập Nhật Không Thành Công Email Không Đúng Định Dạng")
+        }else{
+            mutation.mutate({ id: user?.id, email, name, phone, address, avatar, access_token: user?.access_token })
+        }
     }
+
     return (
         <div style={{ width: '1270px', margin: '0 auto', height: '500px' }}>
             <WrapperHeader>Thông tin người dùng</WrapperHeader>

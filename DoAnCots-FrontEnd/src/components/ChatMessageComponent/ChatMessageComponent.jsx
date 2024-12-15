@@ -9,9 +9,9 @@ const ChatMessageComponent = (props) => {
             {
                 props.user ? (
                     <Message_Right>
-                        <Message_Text style={{marginRight:'5px'}}>{props.message}</Message_Text>
-                        {/* <Person /> */}
                         <UserOutlined />
+                        <Message_Text style={{marginLeft:'5px'}}>{props.message}</Message_Text>
+                        {/* <Person /> */}
                     </Message_Right>
                 ) : (
                     <Message_Left>

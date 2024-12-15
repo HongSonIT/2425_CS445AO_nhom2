@@ -4,22 +4,28 @@ const JwtService = require('../services/JwtService')
 const createUser = async (req, res) => {
     try {
         const { name, email, password, confirmPassword, phone } = req.body
-        const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+        const reg = /^[a-zA-Z0-9._%+-]+@gmail\.com$/
+        const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/
         const isCheckEmail = reg.test(email)
         if (!email || !password || !confirmPassword) {
             return res.status(200).json({
                 status: 'ERR',
-                message: 'The input is required'
+                message: 'Không Được Nhập Thiếu Các Trường'
             })
         } else if (!isCheckEmail) {
             return res.status(200).json({
                 status: 'ERR',
-                message: 'The input is email'
+                message: 'Email Không Hợp Lệ'
+            })
+        }  else if (!passwordReg.test(password)) {
+            return res.status(200).json({
+                status: 'ERR',
+                message: 'Mật khẩu phải từ 8-16 ký tự, bao gồm chữ thường, chữ in hoa, chữ số và ký tự đặc biệt'
             })
         } else if (password !== confirmPassword) {
             return res.status(200).json({
                 status: 'ERR',
-                message: 'The password is equal confirmPassword'
+                message: 'Mật Khẩu Nhập Lại Không Đúng'
             })
         }
         const response = await UserService.createUser(req.body)
@@ -67,12 +73,14 @@ const updateUser = async (req, res) => {
     try {
         const userId = req.params.id
         const data = req.body
+
         if (!userId) {
             return res.status(200).json({
                 status: 'ERR',
                 message: 'The userId is required'
             })
         }
+
         const response = await UserService.updateUser(userId, data)
         return res.status(200).json(response)
     } catch (e) {

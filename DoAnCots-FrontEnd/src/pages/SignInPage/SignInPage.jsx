@@ -13,6 +13,7 @@ import Loading from '../../components/LoadingComponent/Loading'
 import jwt_decode from "jwt-decode";
 import { useDispatch, useSelector } from 'react-redux'
 import { updateUser } from '../../redux/slides/userSlide'
+import * as messages from '../../components/Message/Message'
 
 const SignInPage = () => {
   const [isShowPassword, setIsShowPassword] = useState(false)
@@ -29,12 +30,24 @@ const SignInPage = () => {
   )
   const { data, isLoading, isSuccess } = mutation
 
+  console.log(isSuccess)
+
+  useEffect(() => {
+    if (data?.status == 'OK') {
+      messages.success(data?.message)
+      handleNavigateSignIn()
+    }
+    if (data?.status == 'ERR') {
+      // message.success()
+      // handleNavigateSignIn()
+      messages.error(data?.message)
+    }
+  }, [data?.status])
+
   useEffect(() => {
     if (isSuccess) {
       if(location?.state) {
         navigate(location?.state)
-      }else {
-        navigate('/')
       }
       localStorage.setItem('access_token', JSON.stringify(data?.access_token))
       localStorage.setItem('refresh_token', JSON.stringify(data?.refresh_token))
@@ -54,6 +67,9 @@ const SignInPage = () => {
     dispatch(updateUser({ ...res?.data, access_token: token,refreshToken }))
   }
 
+  const handleNavigateSignIn = () => {
+    navigate('/')
+  }
 
   const handleNavigateSignUp = () => {
     navigate('/sign-up')
@@ -106,7 +122,7 @@ const SignInPage = () => {
               onChange={handleOnchangePassword}
             />
           </div>
-          {data?.status === 'ERR' && <span style={{ color: 'red' }}>{data?.message}</span>}
+          {/* {data?.status === 'ERR' && <span style={{ color: 'red' }}>{data?.message}</span>} */}
           <Loading isLoading={isLoading}>
             <ButtonComponent
               disabled={!email.length || !password.length}
@@ -129,7 +145,7 @@ const SignInPage = () => {
         </WrapperContainerLeft>
         <WrapperContainerRight>
           <Image src={imageLogo} preview={false} alt="iamge-logo" height="203px" width="203px" />
-          <h4>Mua sắm tại LTTD</h4>
+          <h4>Mua sắm tại Comp</h4>
         </WrapperContainerRight>
       </div>
     </div >

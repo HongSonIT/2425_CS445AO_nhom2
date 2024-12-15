@@ -187,6 +187,21 @@ const getAllType = () => {
     })
 }
 
+const getAllAiProduct = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const allType = await Product.find()
+            resolve({
+                status: 'OK',
+                message: 'Success',
+                data: allType,
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
 module.exports = {
     createProduct,
     updateProduct,
@@ -194,5 +209,6 @@ module.exports = {
     deleteProduct,
     getAllProduct,
     deleteManyProduct,
-    getAllType
+    getAllType,
+    getAllAiProduct
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import SliderComponent from '../../components/SliderComponent/SliderComponent'
 import TypeProduct from '../../components/TypeProduct/TypeProduct'
-import { WrapperButtonMore, WrapperProducts, WrapperTypeProduct } from './style'
+import { WrapperButton, WrapperButtonMore, WrapperProducts, WrapperTypeProduct } from './style'
 import slider1 from '../../assets/images/slider1.webp'
 import slider2 from '../../assets/images/slider2.webp'
 import slider3 from '../../assets/images/slider3.webp'
@@ -13,8 +13,11 @@ import { useState } from 'react'
 import Loading from '../../components/LoadingComponent/Loading'
 import { useDebounce } from '../../hooks/useDebounce'
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const HomePage = () => {
+  const navigate = useNavigate()
+
   const searchProduct = useSelector((state) => state?.product?.search)
   const searchDebounce = useDebounce(searchProduct, 500)
   const [loading, setLoading] = useState(false)
@@ -35,6 +38,10 @@ const HomePage = () => {
     if(res?.status === 'OK') {
       setTypeProducts(res?.data)
     }
+  }
+
+  const handleNavigateChatBot = () => {
+    navigate('/ChatBot')
   }
 
   const { isLoading, data: products, isPreviousData } = useQuery(['products', limit, searchDebounce], fetchProductAll, { retry: 3, retryDelay: 1000, keepPreviousData: true })
@@ -76,6 +83,8 @@ const HomePage = () => {
               )
             })}
           </WrapperProducts>
+          <WrapperButton onClick={handleNavigateChatBot} style={{backgroundColor : '#028fe3' , borderRadius : '50%' , bottom : '50px' , position : 'fixed' , right : '125px' , width : '90px' , height : '70px' , color : 'white' , fontSize : 'large' , fontWeight : 'bold' , cursor : 'pointer' , border : 'none' , animation : 'pulse-animation 2s infinite'}} >ChatBox
+          </WrapperButton>
           <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
             <WrapperButtonMore
               textbutton={isPreviousData ? 'Load more' : "Xem thêm"} type="outline" styleButton={{
