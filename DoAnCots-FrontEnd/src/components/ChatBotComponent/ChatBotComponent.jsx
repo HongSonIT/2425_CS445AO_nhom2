@@ -11,7 +11,7 @@ var checkAi = false;
 var aiResponse = []
 
 export default function ChatBot() {
-    const genAI = new GoogleGenerativeAI('AIzaSyBroKbVBW9I2iEBsw5OV4yKJx6K0jMEUd4');  
+    const genAI = new GoogleGenerativeAI('');  
     const [messages,setMessages] = useState([
         {
             message : "Tôi Là Chatbot ! Bạn Muốn Build Bộ PC Như Thế Nào ?",
