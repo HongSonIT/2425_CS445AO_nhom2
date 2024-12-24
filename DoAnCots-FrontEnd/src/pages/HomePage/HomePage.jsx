@@ -44,7 +44,7 @@ const HomePage = () => {
     navigate('/ChatBot')
   }
 
-  const { isLoading, data: products, isPreviousData } = useQuery(['products', limit, searchDebounce], fetchProductAll, { retry: 3, retryDelay: 1000, keepPreviousData: true })
+  const { isLoading , data: products, isPreviousData ,} = useQuery({ queryKey: ['products', limit, searchDebounce], queryFn: fetchProductAll, retry: 3, retryDelay: 1000, keepPreviousData: true, });
 
   useEffect(() => {
     fetchAllTypeProduct()
